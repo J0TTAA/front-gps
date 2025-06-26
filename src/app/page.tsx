@@ -44,6 +44,10 @@ import Profesores from "./components/profesores"
 import PortalFamilias from "./components/portal-familias"
 import DocenteView from "./components/docente-view"
 import FamiliaPortalSearch from "./components/familia-portal-search"
+import Docentes from "./components/docentes"
+import Reportes from "./components/reportes"
+import Actividades from "./components/actividades"
+import Escuelas from "./components/escuelas"
 
 export default function SistemaEducativoRural() {
   const [activeSection, setActiveSection] = useState("dashboard")
@@ -69,7 +73,6 @@ export default function SistemaEducativoRural() {
     { id: "centros-educativos", label: "Centros Educativos", icon: GraduationCap },
     { id: "profesores", label: "Profesores", icon: User },
     { id: "tareas-escolares", label: "Tareas Escolares", icon: FileText },
-    { id: "familias", label: "Portal Familias", icon: User },
     { id: "informes", label: "Informes", icon: Book },
     { id: "configuracion", label: "Configuración", icon: Settings },
   ]
@@ -126,15 +129,7 @@ export default function SistemaEducativoRural() {
 
     if (currentView === "familia") {
       if (showStudentData && studentRut) {
-        return (
-          <PortalFamilias
-            studentRut={studentRut}
-            onBack={() => {
-              setShowStudentData(false)
-              setStudentRut(null)
-            }}
-          />
-        )
+        return <PortalFamilias />
       }
       return (
         <FamiliaPortalSearch
@@ -151,15 +146,13 @@ export default function SistemaEducativoRural() {
       case "dashboard":
         return <Dashboard />
       case "centros-educativos":
-        return <CentrosEducativos />
+        return <Escuelas />
       case "profesores":
-        return <Profesores />
+        return <Docentes />
       case "tareas-escolares":
-        return <TareasEscolares />
-      case "familias":
-        return <PortalFamilias />
+        return <Actividades />
       case "informes":
-        return <Informes />
+        return <Reportes />
       case "configuracion":
         return <Configuracion />
       default:
@@ -204,177 +197,179 @@ export default function SistemaEducativoRural() {
   return (
     <div className="flex h-screen bg-slate-50">
       {/* Sidebar */}
-      <div
-        className={`${sidebarCollapsed ? "w-16" : "w-64"} bg-slate-900 shadow-xl flex flex-col transition-all duration-300`}
-      >
-        {/* Header */}
-        <div className="p-4 border-b border-slate-700">
-          <div className="flex items-center justify-between">
-            {!sidebarCollapsed && (
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
-                  ER
-                </div>
-                <div>
-                  <h1 className="font-bold text-lg text-white">EduRural</h1>
-                  <p className="text-sm text-slate-400">Sistema Educativo</p>
-                </div>
-              </div>
-            )}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="text-slate-400 hover:text-amber-400 hover:bg-navy-800"
-            >
-              {sidebarCollapsed ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
-            </Button>
-          </div>
-        </div>
-
-        {/* Status de conectividad */}
-        <div className="p-4 border-b border-slate-700">
-          <div className={`flex items-center ${sidebarCollapsed ? "justify-center" : "justify-between"}`}>
-            <div className="flex items-center gap-2">
-              {isOnline ? (
-                <Signal className="w-4 h-4 text-amber-400" />
-              ) : (
-                <SignalZero className="w-4 h-4 text-red-400" />
-              )}
+      {currentView !== "familia" && (
+        <div
+          className={`${sidebarCollapsed ? "w-16" : "w-64"} bg-slate-900 shadow-xl flex flex-col transition-all duration-300`}
+        >
+          {/* Header */}
+          <div className="p-4 border-b border-slate-700">
+            <div className="flex items-center justify-between">
               {!sidebarCollapsed && (
-                <span className="text-sm font-medium text-slate-300">{isOnline ? "En línea" : "Sin conexión"}</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+                    ER
+                  </div>
+                  <div>
+                    <h1 className="font-bold text-lg text-white">EduRural</h1>
+                    <p className="text-sm text-slate-400">Sistema Educativo</p>
+                  </div>
+                </div>
+              )}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+                className="text-slate-400 hover:text-amber-400 hover:bg-navy-800"
+              >
+                {sidebarCollapsed ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
+              </Button>
+            </div>
+          </div>
+
+          {/* Status de conectividad */}
+          <div className="p-4 border-b border-slate-700">
+            <div className={`flex items-center ${sidebarCollapsed ? "justify-center" : "justify-between"}`}>
+              <div className="flex items-center gap-2">
+                {isOnline ? (
+                  <Signal className="w-4 h-4 text-amber-400" />
+                ) : (
+                  <SignalZero className="w-4 h-4 text-red-400" />
+                )}
+                {!sidebarCollapsed && (
+                  <span className="text-sm font-medium text-slate-300">{isOnline ? "En línea" : "Sin conexión"}</span>
+                )}
+              </div>
+              {pendingSync > 0 && !sidebarCollapsed && (
+                <Badge variant="secondary" className="text-xs bg-amber-600 text-white">
+                  {pendingSync} pendientes
+                </Badge>
               )}
             </div>
-            {pendingSync > 0 && !sidebarCollapsed && (
-              <Badge variant="secondary" className="text-xs bg-amber-600 text-white">
-                {pendingSync} pendientes
-              </Badge>
-            )}
           </div>
-        </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 p-4">
-          <ul className="space-y-2">
-            {currentView === "admin" && (
-              <>
-                {getMenuItems().map((item) => {
-                  const Icon = item.icon
-                  return (
-                    <li key={item.id}>
-                      <Button
-                        variant={activeSection === item.id && !selectedSchoolForAsistencia ? "default" : "ghost"}
-                        className={`w-full ${sidebarCollapsed ? "justify-center px-2" : "justify-start"} ${
-                          activeSection === item.id && !selectedSchoolForAsistencia
-                            ? "bg-navy-700 text-white hover:bg-navy-600 border-l-4 border-amber-500"
-                            : "text-slate-300 hover:text-amber-300 hover:bg-navy-800"
-                        }`}
-                        onClick={() => {
-                          setActiveSection(item.id)
-                          if (item.id !== "asistencia") {
-                            setSelectedSchoolForAsistencia(null)
-                          }
-                        }}
-                        title={sidebarCollapsed ? item.label : undefined}
-                      >
-                        <Icon className="w-4 h-4" />
-                        {!sidebarCollapsed && <span className="ml-3">{item.label}</span>}
-                      </Button>
-                    </li>
-                  )
-                })}
+          {/* Navigation */}
+          <nav className="flex-1 p-4">
+            <ul className="space-y-2">
+              {currentView === "admin" && (
+                <>
+                  {getMenuItems().map((item) => {
+                    const Icon = item.icon
+                    return (
+                      <li key={item.id}>
+                        <Button
+                          variant={activeSection === item.id && !selectedSchoolForAsistencia ? "default" : "ghost"}
+                          className={`w-full ${sidebarCollapsed ? "justify-center px-2" : "justify-start"} ${
+                            activeSection === item.id && !selectedSchoolForAsistencia
+                              ? "bg-navy-700 text-white hover:bg-navy-600 border-l-4 border-amber-500"
+                              : "text-slate-300 hover:text-amber-300 hover:bg-navy-800"
+                          }`}
+                          onClick={() => {
+                            setActiveSection(item.id)
+                            if (item.id !== "asistencia") {
+                              setSelectedSchoolForAsistencia(null)
+                            }
+                          }}
+                          title={sidebarCollapsed ? item.label : undefined}
+                        >
+                          <Icon className="w-4 h-4" />
+                          {!sidebarCollapsed && <span className="ml-3">{item.label}</span>}
+                        </Button>
+                      </li>
+                    )
+                  })}
 
-                {/* Asistencia con Dropdown de Colegios */}
-                <li>
-                  <Collapsible open={asistenciaOpen} onOpenChange={setAsistenciaOpen}>
-                    <CollapsibleTrigger asChild>
-                      <Button
-                        variant={activeSection === "asistencia" && !selectedSchoolForAsistencia ? "default" : "ghost"}
-                        className={`w-full ${sidebarCollapsed ? "justify-center px-2" : "justify-between"} ${
-                          activeSection === "asistencia" && !selectedSchoolForAsistencia
-                            ? "bg-navy-700 text-white hover:bg-navy-600 border-l-4 border-amber-500"
-                            : "text-slate-300 hover:text-amber-300 hover:bg-navy-800"
-                        }`}
-                        onClick={handleAsistenciaGeneralClick}
-                        title={sidebarCollapsed ? "Asistencia" : undefined}
-                      >
-                        <div className="flex items-center">
-                          <CalendarDays className="w-4 h-4" />
-                          {!sidebarCollapsed && <span className="ml-3">Asistencia</span>}
-                        </div>
-                        {!sidebarCollapsed && (
-                          <div className="ml-auto">
-                            {asistenciaOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                  {/* Asistencia con Dropdown de Colegios */}
+                  <li>
+                    <Collapsible open={asistenciaOpen} onOpenChange={setAsistenciaOpen}>
+                      <CollapsibleTrigger asChild>
+                        <Button
+                          variant={activeSection === "asistencia" && !selectedSchoolForAsistencia ? "default" : "ghost"}
+                          className={`w-full ${sidebarCollapsed ? "justify-center px-2" : "justify-between"} ${
+                            activeSection === "asistencia" && !selectedSchoolForAsistencia
+                              ? "bg-navy-700 text-white hover:bg-navy-600 border-l-4 border-amber-500"
+                              : "text-slate-300 hover:text-amber-300 hover:bg-navy-800"
+                          }`}
+                          onClick={handleAsistenciaGeneralClick}
+                          title={sidebarCollapsed ? "Asistencia" : undefined}
+                        >
+                          <div className="flex items-center">
+                            <CalendarDays className="w-4 h-4" />
+                            {!sidebarCollapsed && <span className="ml-3">Asistencia</span>}
                           </div>
-                        )}
-                      </Button>
-                    </CollapsibleTrigger>
-                    {!sidebarCollapsed && (
-                      <CollapsibleContent className="space-y-1 mt-1">
-                        {colegiosAsistencia.map((colegio) => (
-                          <Button
-                            key={colegio.id}
-                            variant={selectedSchoolForAsistencia === colegio.id ? "default" : "ghost"}
-                            className={`w-full justify-start pl-8 text-sm ${
-                              selectedSchoolForAsistencia === colegio.id
-                                ? "bg-navy-600 text-white hover:bg-navy-500 border-l-4 border-amber-400"
-                                : "text-slate-400 hover:text-amber-300 hover:bg-navy-800"
-                            }`}
-                            onClick={() => handleSchoolAsistenciaClick(colegio.id)}
-                          >
-                            <div className="flex items-center justify-between w-full">
-                              <span className="truncate">{colegio.label.replace("Escuela ", "")}</span>
-                              <div className="flex items-center gap-2 ml-2">
-                                <Badge
-                                  variant="secondary"
-                                  className={`text-xs ${
-                                    colegio.porcentaje >= 90
-                                      ? "bg-amber-600 text-white"
-                                      : colegio.porcentaje >= 80
-                                        ? "bg-navy-600 text-white"
-                                        : "bg-red-600 text-white"
-                                  }`}
-                                >
-                                  {colegio.porcentaje}%
-                                </Badge>
-                              </div>
+                          {!sidebarCollapsed && (
+                            <div className="ml-auto">
+                              {asistenciaOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
                             </div>
-                          </Button>
-                        ))}
-                      </CollapsibleContent>
-                    )}
-                  </Collapsible>
-                </li>
-              </>
-            )}
+                          )}
+                        </Button>
+                      </CollapsibleTrigger>
+                      {!sidebarCollapsed && (
+                        <CollapsibleContent className="space-y-1 mt-1">
+                          {colegiosAsistencia.map((colegio) => (
+                            <Button
+                              key={colegio.id}
+                              variant={selectedSchoolForAsistencia === colegio.id ? "default" : "ghost"}
+                              className={`w-full justify-start pl-8 text-sm ${
+                                selectedSchoolForAsistencia === colegio.id
+                                  ? "bg-navy-600 text-white hover:bg-navy-500 border-l-4 border-amber-400"
+                                  : "text-slate-400 hover:text-amber-300 hover:bg-navy-800"
+                              }`}
+                              onClick={() => handleSchoolAsistenciaClick(colegio.id)}
+                            >
+                              <div className="flex items-center justify-between w-full">
+                                <span className="truncate">{colegio.label.replace("Escuela ", "")}</span>
+                                <div className="flex items-center gap-2 ml-2">
+                                  <Badge
+                                    variant="secondary"
+                                    className={`text-xs ${
+                                      colegio.porcentaje >= 90
+                                        ? "bg-amber-600 text-white"
+                                        : colegio.porcentaje >= 80
+                                          ? "bg-navy-600 text-white"
+                                          : "bg-red-600 text-white"
+                                    }`}
+                                  >
+                                    {colegio.porcentaje}%
+                                  </Badge>
+                                </div>
+                              </div>
+                            </Button>
+                          ))}
+                        </CollapsibleContent>
+                      )}
+                    </Collapsible>
+                  </li>
+                </>
+              )}
 
-            {currentView === "docente" && (
-              <>
-                {getMenuItems().map((item) => {
-                  const Icon = item.icon
-                  return (
-                    <li key={item.id}>
-                      <Button
-                        variant={activeSection === item.id ? "default" : "ghost"}
-                        className={`w-full ${sidebarCollapsed ? "justify-center px-2" : "justify-start"} ${
-                          activeSection === item.id
-                            ? "bg-navy-700 text-white hover:bg-navy-600 border-l-4 border-amber-500"
-                            : "text-slate-300 hover:text-amber-300 hover:bg-navy-800"
-                        }`}
-                        onClick={() => setActiveSection(item.id)}
-                        title={sidebarCollapsed ? item.label : undefined}
-                      >
-                        <Icon className="w-4 h-4" />
-                        {!sidebarCollapsed && <span className="ml-3">{item.label}</span>}
-                      </Button>
-                    </li>
-                  )
-                })}
-              </>
-            )}
-          </ul>
-        </nav>
-      </div>
+              {currentView === "docente" && (
+                <>
+                  {getMenuItems().map((item) => {
+                    const Icon = item.icon
+                    return (
+                      <li key={item.id}>
+                        <Button
+                          variant={activeSection === item.id ? "default" : "ghost"}
+                          className={`w-full ${sidebarCollapsed ? "justify-center px-2" : "justify-start"} ${
+                            activeSection === item.id
+                              ? "bg-navy-700 text-white hover:bg-navy-600 border-l-4 border-amber-500"
+                              : "text-slate-300 hover:text-amber-300 hover:bg-navy-800"
+                          }`}
+                          onClick={() => setActiveSection(item.id)}
+                          title={sidebarCollapsed ? item.label : undefined}
+                        >
+                          <Icon className="w-4 h-4" />
+                          {!sidebarCollapsed && <span className="ml-3">{item.label}</span>}
+                        </Button>
+                      </li>
+                    )
+                  })}
+                </>
+              )}
+            </ul>
+          </nav>
+        </div>
+      )}
 
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">

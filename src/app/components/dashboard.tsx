@@ -163,8 +163,32 @@ export default function Dashboard() {
                   <span className="text-gray-500">{school.students} estudiantes</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <div className="flex-1 bg-gray-200 rounded-full h-2">
-                    <div className="bg-amber-600 h-2 rounded-full" style={{ width: `${school.progress}%` }}></div>
+                  <div className="relative w-12 h-12 flex items-center justify-center">
+                    <svg className="w-12 h-12 rotate-[-90deg]" viewBox="0 0 36 36">
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="16"
+                        fill="none"
+                        stroke="#e5e7eb"
+                        strokeWidth="4"
+                      />
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="16"
+                        fill="none"
+                        stroke="#f59e0b"
+                        strokeWidth="4"
+                        strokeDasharray="100, 100"
+                        strokeDashoffset="0"
+                        strokeLinecap="round"
+                        style={{ strokeDasharray: `${school.progress}, 100` }}
+                      />
+                    </svg>
+                    <span className="absolute inset-0 flex items-center justify-center text-sm font-semibold text-amber-700">
+                      {school.progress}%
+                    </span>
                   </div>
                   <span className="text-sm font-medium w-12">{school.progress}%</span>
                 </div>

@@ -375,32 +375,59 @@ export default function PortalFamilias() {
       </Card>
 
       {/* Contacto */}
-      <Card>
+      <Card className="bg-navy-50 border-navy-200">
         <CardHeader>
-          <CardTitle>Contacto con la Escuela</CardTitle>
-          <CardDescription>Información de contacto y acciones rápidas</CardDescription>
+          <CardTitle className="text-navy-800">Contacto con la Escuela</CardTitle>
+          <CardDescription className="text-navy-600">Información de contacto y acciones rápidas</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="flex items-center gap-3 p-3 border rounded-lg">
-              <Phone className="w-5 h-5 text-navy-500" />
+            <div className="flex items-center gap-3 p-3 border border-navy-100 rounded-lg bg-white">
+              <Phone className="w-5 h-5 text-navy-600" />
               <div>
-                <p className="font-medium">Teléfono Escuela</p>
-                <p className="text-sm text-gray-600">+56 9 8765 4322</p>
+                <p className="font-medium text-navy-800">Teléfono Escuela</p>
+                <p className="text-sm text-navy-600">+56 9 8765 4322</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-3 border rounded-lg">
-              <MessageCircle className="w-5 h-5 text-navy-500" />
+            <div className="flex items-center gap-3 p-3 border border-navy-100 rounded-lg bg-white">
+              <MessageCircle className="w-5 h-5 text-navy-600" />
               <div>
-                <p className="font-medium">Email Docente</p>
-                <p className="text-sm text-gray-600">carlos.mendoza@educacion.cl</p>
+                <p className="font-medium text-navy-800">Email Docente</p>
+                <p className="text-sm text-navy-600">carlos.mendoza@educacion.cl</p>
               </div>
             </div>
-            <Button className="flex items-center gap-2">
+            <Button className="flex items-center gap-2 bg-navy-600 hover:bg-navy-700 text-black">
               <Download className="w-4 h-4" />
               Descargar Reporte
             </Button>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Instrucciones de uso */}
+      <Card className="bg-amber-50 border-amber-200">
+        <CardHeader>
+          <CardTitle className="text-amber-800">Instrucciones de Uso</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ul className="space-y-3 text-base text-amber-900">
+            <li className="flex items-start gap-2">
+              <span className="w-3 h-3 bg-amber-500 rounded-full mt-2 flex-shrink-0"></span>
+              <span>Ingresa el RUT del estudiante tal como aparece en su cédula de identidad.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-3 h-3 bg-amber-500 rounded-full mt-2 flex-shrink-0"></span>
+              <span>Puedes ingresar el RUT con o sin puntos y guión.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-3 h-3 bg-amber-500 rounded-full mt-2 flex-shrink-0"></span>
+              <span>Si el estudiante no aparece, verifica que esté matriculado en el sistema.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="w-3 h-3 bg-amber-500 rounded-full mt-2 flex-shrink-0"></span>
+              <span>Para problemas técnicos, contacta con el soporte de tu escuela.</span>
+            </li>
+          </ul>
         </CardContent>
       </Card>
     </div>

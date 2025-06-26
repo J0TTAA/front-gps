@@ -77,7 +77,7 @@ export default function Escuelas() {
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="flex items-center gap-2 bg-navy-700 hover:bg-navy-600">
+            <Button className="flex items-center gap-2 bg-white-700 hover:bg-white-600 text-black">
               <PlusCircle className="w-4 h-4" />
               Nueva Escuela
             </Button>

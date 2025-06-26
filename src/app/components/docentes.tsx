@@ -1,12 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
+import { Card, CardContent } from "../components/ui/card"
 import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { Badge } from "../components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar"
-import { PlusCircle, Scan, User, PhoneCall, MessageCircle, Pencil, View, X, Book } from "lucide-react"
+import { PlusCircle, Search, User, Phone, Mail, Book, MoreHorizontal } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select"
 import {
   Dialog,
@@ -17,9 +17,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../components/ui/dialog"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../components/ui/dropdown-menu"
 import { Label } from "../components/ui/label"
 
-export default function Docentes() {
+export default function DocentesSobrio() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedSchool, setSelectedSchool] = useState("all")
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -32,7 +33,7 @@ export default function Docentes() {
       especialidad: "Educación Básica",
       escuela: "Escuela Rural Los Pinos",
       telefono: "+56 9 8765 4321",
-      email: "maria.gonzalez..educacion.cl",
+      email: "maria.gonzalez@educacion.cl",
       cursos: ["1° Básico", "2° Básico"],
       estudiantes: 15,
       estado: "Activo",
@@ -46,7 +47,7 @@ export default function Docentes() {
       especialidad: "Matemáticas",
       escuela: "Escuela Valle Verde",
       telefono: "+56 9 8765 4322",
-      email: "carlos.mendoza..educacion.cl",
+      email: "carlos.mendoza@educacion.cl",
       cursos: ["5° Básico", "6° Básico"],
       estudiantes: 22,
       estado: "Activo",
@@ -60,7 +61,7 @@ export default function Docentes() {
       especialidad: "Lenguaje y Comunicación",
       escuela: "Escuela Río Claro",
       telefono: "+56 9 8765 4323",
-      email: "ana.rodriguez..educacion.cl",
+      email: "ana.rodriguez@educacion.cl",
       cursos: ["3° Básico", "4° Básico"],
       estudiantes: 18,
       estado: "Activo",
@@ -74,7 +75,7 @@ export default function Docentes() {
       especialidad: "Ciencias Naturales",
       escuela: "Escuela Monte Alto",
       telefono: "+56 9 8765 4324",
-      email: "roberto.sanchez..educacion.cl",
+      email: "roberto.sanchez@educacion.cl",
       cursos: ["5° Básico", "6° Básico"],
       estudiantes: 20,
       estado: "Activo",
@@ -88,7 +89,7 @@ export default function Docentes() {
       especialidad: "Historia y Geografía",
       escuela: "Escuela Valle Verde",
       telefono: "+56 9 8765 4325",
-      email: "luis.morales..educacion.cl",
+      email: "luis.morales@educacion.cl",
       cursos: ["4° Básico"],
       estudiantes: 12,
       estado: "Inactivo",
@@ -109,127 +110,133 @@ export default function Docentes() {
 
   const getEstadoBadge = (estado: string) => {
     return estado === "Activo" ? (
-      <Badge className="bg-amber-500 text-white">Activo</Badge>
+      <Badge className="bg-amber-500 text-white text-xs">Activo</Badge>
     ) : (
-      <Badge variant="secondary">Inactivo</Badge>
+      <Badge variant="secondary" className="text-xs">
+        Inactivo
+      </Badge>
     )
   }
 
   const getCargoBadge = (cargo: string) => {
     return cargo === "Director" || cargo === "Directora" ? (
-      <Badge className="bg-navy-500 text-white">{cargo}</Badge>
+      <Badge className="bg-slate-700 text-white text-xs">{cargo}</Badge>
     ) : (
-      <Badge variant="outline">{cargo}</Badge>
+      <Badge variant="outline" className="text-xs">
+        {cargo}
+      </Badge>
     )
   }
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-7xl mx-auto p-6 space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h2 className="text-2xl font-bold">Gestión de Docentes</h2>
-          <p className="text-gray-600">Administra el cuerpo docente del sistema educativo rural</p>
-        </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="flex items-center gap-2">
-              <PlusCircle className="w-4 h-4" />
-              Nuevo Docente
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px]">
-            <DialogHeader>
-              <DialogTitle>Registrar Nuevo Docente</DialogTitle>
-              <DialogDescription>Ingresa los datos del nuevo docente</DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <Label htmlFor="nombre">Nombre Completo</Label>
-                <Input id="nombre" placeholder="Nombre y apellidos" />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="rut">RUT</Label>
-                  <Input id="rut" placeholder="12.345.678-9" />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="telefono">Teléfono</Label>
-                  <Input id="telefono" placeholder="+56 9..." />
-                </div>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="email..educacion.cl" />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="especialidad">Especialidad</Label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Seleccionar" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="educacion-basica">Educación Básica</SelectItem>
-                      <SelectItem value="matematicas">Matemáticas</SelectItem>
-                      <SelectItem value="lenguaje">Lenguaje y Comunicación</SelectItem>
-                      <SelectItem value="ciencias">Ciencias Naturales</SelectItem>
-                      <SelectItem value="historia">Historia y Geografía</SelectItem>
-                      <SelectItem value="educacion-fisica">Educación Física</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="cargo">Cargo</Label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Seleccionar" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="docente">Docente</SelectItem>
-                      <SelectItem value="director">Director(a)</SelectItem>
-                      <SelectItem value="coordinador">Coordinador(a)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="escuela">Escuela</Label>
-                <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar escuela" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="los-pinos">Escuela Rural Los Pinos</SelectItem>
-                    <SelectItem value="valle-verde">Escuela Valle Verde</SelectItem>
-                    <SelectItem value="rio-claro">Escuela Río Claro</SelectItem>
-                    <SelectItem value="monte-alto">Escuela Monte Alto</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <DialogFooter>
-              <Button type="submit" onClick={() => setIsDialogOpen(false)}>
-                Registrar Docente
+      <div className="border-b pb-6">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-light text-gray-900">Docentes</h1>
+            <p className="text-gray-500 mt-1">Gestión del cuerpo docente</p>
+          </div>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="gap-2">
+                <PlusCircle className="w-4 h-4" />
+                Nuevo Docente
               </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[500px]">
+              <DialogHeader>
+                <DialogTitle>Registrar Nuevo Docente</DialogTitle>
+                <DialogDescription>Ingresa los datos del nuevo docente</DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="nombre">Nombre Completo</Label>
+                  <Input id="nombre" placeholder="Nombre y apellidos" />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="rut">RUT</Label>
+                    <Input id="rut" placeholder="12.345.678-9" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="telefono">Teléfono</Label>
+                    <Input id="telefono" placeholder="+56 9..." />
+                  </div>
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input id="email" type="email" placeholder="email@educacion.cl" />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="especialidad">Especialidad</Label>
+                    <Select>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Seleccionar" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="educacion-basica">Educación Básica</SelectItem>
+                        <SelectItem value="matematicas">Matemáticas</SelectItem>
+                        <SelectItem value="lenguaje">Lenguaje y Comunicación</SelectItem>
+                        <SelectItem value="ciencias">Ciencias Naturales</SelectItem>
+                        <SelectItem value="historia">Historia y Geografía</SelectItem>
+                        <SelectItem value="educacion-fisica">Educación Física</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="cargo">Cargo</Label>
+                    <Select>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Seleccionar" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="docente">Docente</SelectItem>
+                        <SelectItem value="director">Director(a)</SelectItem>
+                        <SelectItem value="coordinador">Coordinador(a)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="escuela">Escuela</Label>
+                  <Select>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccionar escuela" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="los-pinos">Escuela Rural Los Pinos</SelectItem>
+                      <SelectItem value="valle-verde">Escuela Valle Verde</SelectItem>
+                      <SelectItem value="rio-claro">Escuela Río Claro</SelectItem>
+                      <SelectItem value="monte-alto">Escuela Monte Alto</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="submit" onClick={() => setIsDialogOpen(false)}>
+                  Registrar Docente
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1 max-w-sm">
-          <Scan className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+      <div className="flex gap-4">
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
             placeholder="Buscar docentes..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-8"
+            className="pl-10 border-gray-200"
           />
         </div>
         <Select value={selectedSchool} onValueChange={setSelectedSchool}>
-          <SelectTrigger className="w-[200px]">
+          <SelectTrigger className="w-64 border-gray-200">
             <SelectValue placeholder="Todas las escuelas" />
           </SelectTrigger>
           <SelectContent>
@@ -242,16 +249,16 @@ export default function Docentes() {
         </Select>
       </div>
 
-      {/* Docentes Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Docentes List */}
+      <div className="space-y-3">
         {filteredDocentes.map((docente) => (
-          <Card key={docente.id} className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <div className="flex items-center gap-3">
+          <Card key={docente.id} className="border-gray-200 hover:shadow-sm transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
                   <Avatar className="w-12 h-12">
                     <AvatarImage src={`/placeholder.svg?height=48&width=48`} />
-                    <AvatarFallback className="bg-navy-100 text-navy-600 font-bold">
+                    <AvatarFallback className="bg-gray-100 text-gray-600 font-medium">
                       {docente.nombre
                         .split(" ")
                         .map((n) => n[0])
@@ -259,74 +266,58 @@ export default function Docentes() {
                         .slice(0, 2)}
                     </AvatarFallback>
                   </Avatar>
-                  <div>
-                    <CardTitle className="text-lg">{docente.nombre}</CardTitle>
-                    <CardDescription>{docente.rut}</CardDescription>
+
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-1">
+                      <h3 className="font-medium text-gray-900">{docente.nombre}</h3>
+                      <span className="text-sm text-gray-500">{docente.rut}</span>
+                      {getEstadoBadge(docente.estado)}
+                      {getCargoBadge(docente.cargo)}
+                    </div>
+
+                    <div className="flex items-center gap-6 text-sm text-gray-600">
+                      <span>{docente.especialidad}</span>
+                      <span>•</span>
+                      <span>{docente.escuela}</span>
+                      <span>•</span>
+                      <div className="flex items-center gap-1.5">
+                        <Book className="w-3 h-3 flex-shrink-0" />
+                        <span>{docente.cursos.join(", ")}</span>
+                      </div>
+                      <span>•</span>
+                      <div className="flex items-center gap-1.5">
+                        <User className="w-3 h-3 flex-shrink-0" />
+                        <span>{docente.estudiantes} estudiantes</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="flex flex-col gap-1">
-                  {getEstadoBadge(docente.estado)}
-                  {getCargoBadge(docente.cargo)}
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <div>
-                  <p className="text-sm text-gray-500">Especialidad</p>
-                  <p className="font-medium">{docente.especialidad}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Escuela</p>
-                  <p className="font-medium text-sm">{docente.escuela}</p>
-                </div>
-              </div>
 
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <Book className="w-3 h-3 text-gray-400" />
-                  <span className="text-sm text-gray-600">Cursos: {docente.cursos.join(", ")}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <User className="w-3 h-3 text-gray-400" />
-                  <span className="text-sm text-gray-600">{docente.estudiantes} estudiantes</span>
-                </div>
-              </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-4 text-sm text-gray-500">
+                    <div className="flex items-center gap-1.5">
+                      <Phone className="w-3 h-3 flex-shrink-0" />
+                      <span>{docente.telefono}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Mail className="w-3 h-3 flex-shrink-0" />
+                      <span>{docente.email}</span>
+                    </div>
+                    <span className="text-xs">Ingreso: {docente.fechaIngreso}</span>
+                  </div>
 
-              <div className="space-y-1 text-sm">
-                <div className="flex items-center gap-2">
-                  <PhoneCall className="w-3 h-3 text-gray-400" />
-                  <span className="text-gray-600">{docente.telefono}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <MessageCircle className="w-3 h-3 text-gray-400" />
-                  <span className="text-gray-600">{docente.email}</span>
-                </div>
-              </div>
-
-              <div className="pt-2 border-t">
-                <p className="text-xs text-gray-500 mb-3">Ingreso: {docente.fechaIngreso}</p>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" className="flex-1">
-                    <View className="w-3 h-3 mr-1" />
-                    Ver
-                  </Button>
-                  <Button variant="outline" size="sm" className="flex-1">
-                    <Pencil className="w-3 h-3 mr-1" />
-                    Editar
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="border-red-300 text-red-700 hover:bg-red-50"
-                    onClick={() => {
-                      if (confirm(`¿Deshabilitar a ${docente.nombre}?`)) {
-                        alert(`${docente.nombre} ha sido deshabilitado`)
-                      }
-                    }}
-                  >
-                    <X className="w-3 h-3" />
-                  </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="sm">
+                        <MoreHorizontal className="w-4 h-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem>Ver detalles</DropdownMenuItem>
+                      <DropdownMenuItem>Editar</DropdownMenuItem>
+                      <DropdownMenuItem className="text-red-600">Deshabilitar</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </div>
             </CardContent>
@@ -335,7 +326,7 @@ export default function Docentes() {
       </div>
 
       {filteredDocentes.length === 0 && (
-        <div className="text-center py-12">
+        <div className="text-center py-16">
           <p className="text-gray-500">No se encontraron docentes que coincidan con la búsqueda</p>
         </div>
       )}

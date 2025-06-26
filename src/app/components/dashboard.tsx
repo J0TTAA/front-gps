@@ -1,7 +1,6 @@
 "use client"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
-import { CustomProgress } from "./ui/custom-progress"
 import { UserCheck, GraduationCap, CalendarDays, TrendingUp, AlertTriangle, Check, Timer } from "lucide-react"
 
 export default function Dashboard() {
@@ -164,7 +163,9 @@ export default function Dashboard() {
                   <span className="text-gray-500">{school.students} estudiantes</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CustomProgress value={school.progress} variant="academic" className="flex-1" />
+                  <div className="flex-1 bg-gray-200 rounded-full h-2">
+                    <div className="bg-amber-600 h-2 rounded-full" style={{ width: `${school.progress}%` }}></div>
+                  </div>
                   <span className="text-sm font-medium w-12">{school.progress}%</span>
                 </div>
               </div>
